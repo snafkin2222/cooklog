@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe "ログイン", type: :request do
   let!(:user) { create(:user) }
+  let!(:admin_user) { create(:user, :admin) }
 
   it "正常なレスポンスを返すこと" do
     get login_path
@@ -29,5 +30,14 @@ RSpec.describe "ログイン", type: :request do
     post login_path, params: { session: { email: "xxx@example.com",
                                           password: user.password } }
     expect(is_logged_in?).not_to be_truthy
+  end
+
+  it "admin属性の変更が禁止されていること" do
+    login_for_request(user)
+    expect(user.admin).to be_falsey
+    patch user_path(user), params: { user: { password: user.password,
+                                             password_confirmation: user.password,
+                                             admin: true } }
+    expect(user.reload.admin).to be_falsey
   end
 end
