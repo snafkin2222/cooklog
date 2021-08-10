@@ -17,4 +17,7 @@ Rails.application.routes.draw do
   get :about,        to: 'static_pages#about'
   get :use_of_terms, to: 'static_pages#terms'
   resources :relationships, only: [:create, :destroy]
+  get :favorites, to: 'favorites#index'
+  post   "favorites/:dish_id/create"  => "favorites#create"
+  delete "favorites/:dish_id/destroy" => "favorites#destroy"
 end
