@@ -154,11 +154,8 @@ end
 
       it "料理の情報が表示されていることを確認" do
         Dish.take(5).each do |dish|
-          expect(page).to have_link dish.name
-          expect(page).to have_content dish.description
-          expect(page).to have_content dish.user.name
-          expect(page).to have_content dish.required_time
-          expect(page).to have_content dish.popularity
+          （省略）
+          expect(page).to have_content "★" * dish.popularity + "☆" * (5 - dish.popularity)
         end
       end
 
